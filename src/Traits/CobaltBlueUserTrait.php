@@ -13,6 +13,24 @@ trait CobaltBlueUserTrait
         return $this->cb_directPermissions()->union($this->cb_indirectPermissions());
     }
 
+    public function HasAnyRole(array $values) {
+        foreach($values as $value) {
+            if($this->HasRole($value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function HasEveryRole(array $values) {
+        foreach($values as $value) {
+            if(!$this->HasRole($value)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function HasRole($value) : bool {
         if(is_int($value)) {
             return $this->roles()->get()->contains($value);
@@ -35,30 +53,48 @@ trait CobaltBlueUserTrait
             $this->roles()->attach($value);
         }
         else if(is_string($value)) {
-             $$role = \Salyam\CobaltBlue\Models\Role::firstWhere('name', '=', $value);
-             $this->GrantRole($role);
-         }
-         else if(is_a($value, '\Salyam\CobaltBlue\Models\Role')) {
-             if($value != null) {
-                 return $this->roles()->attach($value->id);
-             }
-         }
-     }
+            $$role = \Salyam\CobaltBlue\Models\Role::firstWhere('name', '=', $value);
+            $this->GrantRole($role);
+        }
+        else if(is_a($value, '\Salyam\CobaltBlue\Models\Role')) {
+            if($value != null) {
+                return $this->roles()->attach($value->id);
+            }
+        }
+    }
  
-     public function RevokeRole($value) {
-         if(is_int($value)) {
-             $this->roles()->detach($value);
-         }
+    public function RevokeRole($value) {
+        if(is_int($value)) {
+            $this->roles()->detach($value);
+        }
          else if(is_string($value)) {
-             $role = \Salyam\CobaltBlue\Models\Role::firstWhere('name', '=', $value);
-             $this->RevokeRole($role);
-         }
-         else if(is_a($value, '\Salyam\CobaltBlue\Models\Role')) {
-             if($value != null) {
-                 return $this->roles()->detach($value->id);
-             }
-         }
-     }
+            $role = \Salyam\CobaltBlue\Models\Role::firstWhere('name', '=', $value);
+            $this->RevokeRole($role);
+        }
+        else if(is_a($value, '\Salyam\CobaltBlue\Models\Role')) {
+            if($value != null) {
+                return $this->roles()->detach($value->id);
+            }
+        }
+    }
+
+    public function HasAnyPermission(array $values) {
+        foreach($values as $value) {
+            if($this->HasPermission($value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function HasEveryPermission(array $values) {
+        foreach($values as $value) {
+            if(!$this->HasPermission($value)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public function HasPermission($value) : bool {
         if(is_int($value)) {
