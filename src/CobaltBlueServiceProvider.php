@@ -15,8 +15,8 @@ class CobaltBlueServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['router']->aliasMiddleware('role', \Salyam\CobaltBlue\MiddleWares\RoleMiddleware::class);
-        $this->app['router']->aliasMiddleware('permission', \Salyam\CobaltBlue\MiddleWares\PermissionMiddleware::class);
+        $this->app['router']->aliasMiddleware('role', \Salyam\CobaltBlue\Middlewares\RoleMiddleware::class);
+        $this->app['router']->aliasMiddleware('permission', \Salyam\CobaltBlue\Middlewares\PermissionMiddleware::class);
     }
 
     /**
