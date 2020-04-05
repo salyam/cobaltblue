@@ -39,14 +39,20 @@ class CobaltBlueServiceProvider extends ServiceProvider
     private function RegisterBladeDirectives()
     {
         Blade::if('role',
-            function($roleName) {
-                return Auth::check() && Auth::user()->HasRole($roleName);
+            function($parameter) {
+                if(!is_array($parameter))
+                    return Auth::check() && Auth::user()->HasRole($parameter);
+                else
+                    return Auth::check() && Auth::user()->HasAnyRole($parameter);
             }
         );
 
         Blade::if('permission',
-            function($permissionName) {
-                return Auth::check() && Auth::user()->HasPermission($permissionName);
+            function($parameter) {
+                if(!is_array($parameter))
+                    return Auth::check() && Auth::user()->HasPermission($parameter);
+                else
+                    return Auth::check() && Auth::user()->HasAnyPermission($parameter);
             }
         );
 
