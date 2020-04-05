@@ -1,6 +1,6 @@
 <?php
 
-namespace Salyam\CobaltBlue\MiddleWares;
+namespace Salyam\CobaltBlue\Middlewares;
 
 use Closure;
 
